@@ -1,0 +1,7 @@
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ Suspendisse id enim euismod erat elementum cursus. In hac
+ habitasse platea dictumst. Etiam vitae tortor ipsum. Morbi
+massa augue, lacinia sed nisl id, congue eleifend lorem.
+
+***require ‘folder 2/file 2 - 2.txt’***
+***require ‘folder 2/file 2 - 1.txt’***
