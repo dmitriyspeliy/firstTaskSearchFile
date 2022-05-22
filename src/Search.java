@@ -8,7 +8,7 @@ public class Search {
     public static void main(String[] args) {
         getFiles(new File(pathRoot), dependsAndName);
         checkDepens(dependsAndName);
-        sortedList(dependsAndName);
+        readAndWrite(sortedList(dependsAndName));
 
     }
 
@@ -52,10 +52,6 @@ public class Search {
         }
     }
 
-    public static void sortForDepens(Map<String, String> dependsAndName) {
-
-    }
-
     public static void checkDepens(Map<String, String> dependsAndName) {
         String nameFile;
         String nameDepens;
@@ -88,17 +84,9 @@ public class Search {
         }
     }
 
-    public static void sortedList(Map<String, String> dependsAndName) {
-        List<Map<String, String>> sortedList = new ArrayList<>();
-        for (Map.Entry<String, String> map : dependsAndName.entrySet()) {
-            sortedList.add(Map.of(map.getKey(), map.getValue()));
-        }
+    public static List<String> sortedList(Map<String, String> dependsAndName) {
         List<String> depens = new ArrayList<>(dependsAndName.values());
         List<String> name = new ArrayList<>(dependsAndName.keySet());
-        System.out.println(name);
-        System.out.println(depens);
-
-        System.out.println("<----------------------------------------------------------------->");
         for (int i = 0; i < name.size(); i++) {
             for (int j = 0; j < depens.size(); j++) {
                 String nameFile = name.get(i).substring(name.get(i)
@@ -118,8 +106,12 @@ public class Search {
                 }
             }
         }
+        return name;
+    }
 
-        System.out.println(name);
+    public static void readAndWrite(List<String> arr) {
+        System.out.println(arr);
+
     }
 
 }
