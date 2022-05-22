@@ -2,7 +2,9 @@ import java.io.*;
 import java.util.*;
 
 public class Search {
+    //мапа
     public final static Map<String, String> dependsAndName = new HashMap<>();
+    //корневая папка
     public final static String pathRoot = "main_folder";
 
     public static void main(String[] args) {
@@ -12,6 +14,7 @@ public class Search {
 
     }
 
+    //ищем и получаем все файлы .ткст
     public static void getFiles(File rootFile, Map<String, String> dependsAndName) {
         if (rootFile.isDirectory()) {
             File[] directoryFiles = rootFile.listFiles();
@@ -52,6 +55,7 @@ public class Search {
         }
     }
 
+    //проверям на ошибки, если ли циклическая зависимость и кидаем исключение
     public static void checkDepens(Map<String, String> dependsAndName) {
         String nameFile;
         String nameDepens;
@@ -93,6 +97,7 @@ public class Search {
         }
     }
 
+    //сортируем исходя из зависимости
     public static List<String> sortedList(Map<String, String> dependsAndName) {
         List<String> depens = new ArrayList<>(dependsAndName.values());
         List<String> name = new ArrayList<>(dependsAndName.keySet());
@@ -118,6 +123,7 @@ public class Search {
         return name;
     }
 
+    //читаем и пишем в файл. Всегда дозаписывается
     public static void readAndWrite(List<String> arr) {
         for(String nameFile : arr){
             String nameFileWithSub = null;
