@@ -62,11 +62,15 @@ public class Search {
                         map.getValue().indexOf("’"));
                 nameFile = map.getKey().substring(map.getKey()
                         .lastIndexOf("\\") + 1);
-                if (nameDepens.equals(nameFile)) {
-                    System.out.println("Ключ и значение одинаковы, зависимость ссылается на файл, где прописана," +
-                            " будет циклическая зависимость.\nИмя файла : " + map.getKey() + ",зависимость : " + map.getValue());
-                    break;
+                try {
+                    if (nameDepens.equals(nameFile)) {
+                        throw new MyExeption1(map.getKey(),map.getValue());
+                    }
+                }catch (MyExeption1 e){
+                    System.out.println("Exception: "+e);
+                    return;
                 }
+
                 for (Map.Entry<String, String> mapAgain : dependsAndName.entrySet()) {
                     if (!Objects.equals(mapAgain.getValue(), "Без зависимости")) {
                         String nameDepensMapAgain = mapAgain.getValue().substring(mapAgain.getValue()
@@ -74,9 +78,14 @@ public class Search {
                                 mapAgain.getValue().indexOf("’"));
                         String nameFileMapAgain = mapAgain.getKey().substring(mapAgain.getKey()
                                 .lastIndexOf("\\") + 1);
-                        if (nameFile.equals(nameDepensMapAgain) && nameFileMapAgain.equals(nameDepens)) {
-                            System.out.println("Файлы " + map.getKey() + " ссылаются друг на друга " + map.getValue());
+                        try {
+                            if (nameFile.equals(nameDepensMapAgain) && nameFileMapAgain.equals(nameDepens)) {
+                                throw new MyExeption2(map.getKey(),map.getValue());
+                            }
+                        } catch (MyExeption2 e) {
+                            System.out.println("Exception: "+e);
                         }
+
                     }
 
                 }
@@ -110,7 +119,28 @@ public class Search {
     }
 
     public static void readAndWrite(List<String> arr) {
-        System.out.println(arr);
+        for(String nameFile : arr){
+            String nameFileWithSub = null;
+            if(nameFile.startsWith("Зависимость")){
+                nameFileWithSub = nameFile.substring(nameFile.indexOf("\\"));
+            }else{
+                nameFileWithSub = nameFile;
+            }
+
+            try(BufferedReader reader = new BufferedReader(new FileReader(pathRoot+"\\"
+                    +nameFileWithSub));
+            BufferedWriter writer = new BufferedWriter(new FileWriter("main_folder/mainFile",true))) {
+                String lineR;
+                writer.write(nameFileWithSub + "\n");
+                writer.write("\n");
+                while ((lineR = reader.readLine()) != null) {
+                    writer.write(lineR + "\n");
+                }
+                writer.write("\n");
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
 
     }
 
